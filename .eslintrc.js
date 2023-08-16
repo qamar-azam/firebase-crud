@@ -5,13 +5,13 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'standard',
-    'prettier'
+    'standard'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
+      tsx: true
     },
     ecmaVersion: 12,
     sourceType: 'module'
@@ -23,7 +23,7 @@ module.exports = {
   },
   plugins: [
     'react',
-    '@typescript-eslint'
+    '@typescript-eslint',
   ],
   rules: {
     'react/prop-types': 'off',
@@ -41,6 +41,6 @@ module.exports = {
     'react/jsx-boolean-value': 'error',
     'prefer-template': "error",
     'jsx-quotes': ["error", "prefer-double"],
-    "react/jsx-tag-spacing": "error"
+    "react/jsx-tag-spacing": "error",
   }
 }

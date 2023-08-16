@@ -1,42 +1,90 @@
-import {createContext, ReactNode, useContext, useReducer} from "react";
-import { User } from "firebase/auth";
+import { createContext, ReactNode, useContext, useReducer } from 'react';
+import { User } from 'firebase/auth';
+import { useEffect } from 'react';
 
-type AuthActions = { type: 'SIGN_IN', payload: { user: User } } | {type: 'SIGN_OUT'}
+type AuthActions =
+  | { type: 'SIGN_IN'; payload: { user: User } }
+  | { type: 'SIGN_OUT' }
+  | { type: 'UNKNOWN' };
 
-type AuthState = {
-  state: 'SIGNED_IN'
-  currentUser: User;
-} | {
-  state: 'SIGNED_OUT'
-} | {
-  state: 'UNKNOWN'
-};
+export type AuthState =
+  | {
+      state: 'SIGNED_IN';
+      currentUser: User;
+    }
+  | {
+      state: 'SIGNED_OUT';
+    }
+  | {
+      state: 'UNKNOWN';
+    };
 
-const AuthReducer = (state: AuthState, action: AuthActions): AuthState => {
+const AuthReducer = (state: AuthState, action: AuthActions) => {
   switch (action.type) {
-    case "SIGN_IN":
+    case 'SIGN_IN':
       return {
         state: 'SIGNED_IN',
-        currentUser: action.payload.user,
+        currentUser: action.payload.user
       };
-      break
-    case "SIGN_OUT":
+
+    case 'SIGN_OUT':
       return {
-        state: 'SIGNED_OUT',
-      }
+        state: 'SIGNED_OUT'
+      };
+
+    case 'UNKNOWN':
+      return {
+        state: 'UNKNOWN'
+      };
+
+    default:
+      return state;
   }
-}
+};
 
 type AuthContextProps = {
-  state: AuthState
-  dispatch: (value: AuthActions) => void
+  state: AuthState;
+  dispatch: (value: AuthActions) => void;
+};
+
+export const AuthContext = createContext<AuthContextProps>({
+  state: { state: 'UNKNOWN' },
+  dispatch: (val) => {}
+});
+
+function loadFromLocalStorage() {
+  const ls = localStorage.getItem('user');
+  return ls ? JSON.parse(ls) : null;
 }
 
-export const AuthContext = createContext<AuthContextProps>({ state: { state: 'UNKNOWN' }, dispatch: (val) => {
-  } });
+type initialState = {
+  state: string;
+  currentUser?: User | undefined;
+};
+function createInitialState(): initialState {
+  const user = loadFromLocalStorage();
+  if (user) {
+    return {
+      state: 'SIGNED_IN',
+      currentUser: user
+    };
+  }
+
+  return {
+    state: 'UNKNOWN'
+  };
+}
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(AuthReducer, { state: 'UNKNOWN' })
+  const [state, dispatch] = useReducer(AuthReducer, createInitialState());
+
+  useEffect(() => {
+    if (state.state === 'SIGNED_IN') {
+      window.localStorage.setItem('user', JSON.stringify(state.currentUser));
+    } else if (state.state === 'SIGN_OUT') {
+      window.localStorage.removeItem('user');
+    }
+  }, [state]);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
@@ -48,26 +96,26 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 const useAuthState = () => {
   const { state } = useContext(AuthContext);
   return {
-    state,
+    user: state.currentUser
   };
 };
 
 const useSignIn = () => {
-  const {dispatch} = useContext(AuthContext)
+  const { dispatch } = useContext(AuthContext);
   return {
     signIn: (user: User) => {
-      dispatch({type: "SIGN_IN", payload: {user}})
+      dispatch({ type: 'SIGN_IN', payload: { user } });
     }
-  }
-}
+  };
+};
 
 const useSignOut = () => {
-  const {dispatch} = useContext(AuthContext)
+  const { dispatch } = useContext(AuthContext);
   return {
     signOut: () => {
-      dispatch({type: "SIGN_OUT"})
+      dispatch({ type: 'SIGN_OUT' });
     }
-  }
-}
+  };
+};
 
 export { useAuthState, useSignIn, useSignOut, AuthProvider };

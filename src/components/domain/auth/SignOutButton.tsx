@@ -1,11 +1,14 @@
+import { useAuthState, useSignOut } from "~/components/contexts/UserContext";
 import { useAuth } from "~/lib/firebase";
 
 type Props = {};
 
 export const SignOutButton = (props: Props) => {
+  const { signOut } = useSignOut();
   const handleClick = () => {
     const auth = useAuth();
     auth.signOut();
+    signOut();
   };
 
   return (
