@@ -13,7 +13,11 @@ function Header() {
   return (
     <>
       <nav className='p-4 mb-20 flex items-center justify-between'>
-        <Link to='/' className='text-slate-100 text-xl text-bold'>
+        <Link
+          to='/'
+          className='text-slate-100 text-xl text-bold'
+          data-test='logo'
+        >
           Todo App
         </Link>
 
