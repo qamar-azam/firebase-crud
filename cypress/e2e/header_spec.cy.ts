@@ -1,6 +1,6 @@
 describe('header', () => {
   beforeEach(() => {
-    cy.visit('http://127.0.0.1:5173/signin');
+    cy.visit('/signin');
   });
 
   it('have logo', () => {

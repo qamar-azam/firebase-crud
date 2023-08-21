@@ -1,6 +1,6 @@
 describe('/signin', () => {
   beforeEach(() => {
-    cy.visit('http://127.0.0.1:5173/signin');
+    cy.visit('/signin');
   });
 
   it('greets with Sign In', () => {
@@ -44,6 +44,6 @@ describe('/signin', () => {
     cy.get('[data-test=email]').type('qamar065@gmail.com');
     cy.get('[data-test=password]').type('qamar123');
     cy.contains('button', 'Submit').click();
-    cy.url().should('equal', 'http://127.0.0.1:5173/');
+    cy.location('pathname').should('equal', '/');
   });
 });
