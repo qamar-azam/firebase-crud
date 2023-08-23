@@ -12,7 +12,8 @@ describe('header', () => {
   });
 
   it('show Sign Out button when logged in', () => {
-    cy.login();
+    cy.login('qamar065@gmail.com', 'qamar123');
+    cy.visit('http://127.0.0.1:5173');
     cy.contains('button', 'Sign Out');
   });
 });
