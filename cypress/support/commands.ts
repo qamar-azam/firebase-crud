@@ -11,11 +11,22 @@
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add('login', (email, password) => {
-  cy.visit('/signin');
-  cy.get('[data-test=email]').type('qamar065@gmail.com');
-  cy.get('[data-test=password]').type('qamar123');
-  cy.contains('button', 'Submit').click();
+Cypress.Commands.add('login', () => {
+  cy.session(
+    'loginTest',
+    () => {
+      const { firebase_user_email, firebase_user_password } = Cypress.env();
+      cy.visit('/signin');
+      cy.get('[data-test=email]').type(firebase_user_email);
+      cy.get('[data-test=password]').type(firebase_user_password);
+      cy.contains('button', 'Submit').click();
+    },
+    {
+      validate: () => {
+        cy.getAllLocalStorage('user').should('exist');
+      }
+    }
+  );
 });
 //
 //
