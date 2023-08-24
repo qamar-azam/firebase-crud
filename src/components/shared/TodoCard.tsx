@@ -22,10 +22,10 @@ function TodoCard({ todo, updateTodo, deleteTodo }: TodoCardProps) {
       key={todo.id}
       className='text-white group relative h-48 rounded-md flex flex-col justify-between shadow-slate-900 shadow-md p-4 bg-gradient-to-r from-slate-800 to-slate-700'
     >
-      <div onClick={() => updateTodo(todo)}>
+      <div onClick={() => updateTodo(todo)} aria-label='edit'>
         <PencilIcon className='h-4 w-4 text-blue-500 hidden  group-hover:block absolute top-4 right-8 cursor-pointer' />
       </div>
-      <div onClick={() => deleteTodo(todo.id)}>
+      <div onClick={() => deleteTodo(todo.id)} aria-label='delete'>
         <TrashIcon className='h-4 w-4 text-blue-500 hidden group-hover:block absolute top-4 right-2 cursor-pointer' />
       </div>
       <div>
