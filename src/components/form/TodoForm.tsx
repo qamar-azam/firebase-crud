@@ -56,7 +56,6 @@ function TodoForm({ isEdit, selectedTodo, handleFormSubmit }: TodoFormProps) {
         Complete
         <input
           type='checkbox'
-          placeholder='Url'
           className='ml-2 mr-4 p-2 rounded'
           checked={inputData.complete}
           onChange={(e) => handleChange(InputEnum.Complete, e.target.checked)}
