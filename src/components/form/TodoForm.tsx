@@ -45,6 +45,7 @@ function TodoForm({ isEdit, selectedTodo, handleFormSubmit }: TodoFormProps) {
       />
       <input
         type='text'
+        name='description'
         placeholder='Description'
         className='mr-4 p-2 rounded'
         value={inputData.description}
