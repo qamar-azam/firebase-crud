@@ -1,3 +1,4 @@
+import { formatDate } from '../../src/utils/util';
 const todos = require('../fixtures/todo');
 
 describe('Todo Form', () => {
@@ -19,6 +20,7 @@ describe('Todo Form', () => {
 
   it('should add new todo', () => {
     const { title, description, complete } = todos[0];
+    const date = new Date();
     cy.get('input[name=title]').type(title);
     cy.get('input[name=description]').type(description);
     cy.get('input[type=checkbox]').click();
@@ -30,6 +32,10 @@ describe('Todo Form', () => {
     cy.get('[data-test=todo-card]')
       .eq(0)
       .should('contain.text', complete ? 'Completed' : 'Pending');
+
+    cy.get('[data-test=todo-card]')
+      .eq(0)
+      .should('contain.text', formatDate(date.toString()));
   });
 
   it('should edit todo', () => {
