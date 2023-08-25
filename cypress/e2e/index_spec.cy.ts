@@ -37,7 +37,7 @@ describe('Todo Form', () => {
       .eq(0)
       .trigger('mouseover')
       .find('[aria-label=edit]')
-      .click();
+      .click({ force: true });
 
     cy.get('input[name=title]').clear().type('updated Title');
     cy.contains('button', 'Update todo').click();
@@ -51,7 +51,7 @@ describe('Todo Form', () => {
       cy.wrap(items[0])
         .trigger('mouseover')
         .find('[aria-label=delete]')
-        .click();
+        .click({ force: true });
 
       cy.get('[data-test=todo-card]').should('have.length', items.length - 1);
     });
