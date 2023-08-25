@@ -68,7 +68,7 @@ function Index() {
           userId: auth.user.uid
         });
 
-        setTodoList([...todoList, { id: newDoc.id, ...todo } as Todo]);
+        setTodoList([{ id: newDoc.id, ...todo } as Todo, ...todoList]);
       }
     } catch (error) {
       console.log(error);
