@@ -20,6 +20,7 @@ function TodoCard({ todo, updateTodo, deleteTodo }: TodoCardProps) {
   return (
     <div
       key={todo.id}
+      data-test='todo-card'
       className='text-white group relative h-48 rounded-md flex flex-col justify-between shadow-slate-900 shadow-md p-4 bg-gradient-to-r from-slate-800 to-slate-700'
     >
       <div onClick={() => updateTodo(todo)} aria-label='edit'>
