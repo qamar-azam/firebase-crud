@@ -13,7 +13,7 @@
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
   cy.session(
-    'loginTest',
+    'signInTest',
     () => {
       const { firebase_user_email, firebase_user_password } = Cypress.env();
       cy.visit('/signin');
@@ -23,8 +23,10 @@ Cypress.Commands.add('login', () => {
     },
     {
       validate: () => {
+        cy.visit('/');
         cy.getAllLocalStorage('user').should('exist');
       }
+      //cacheAcrossSpecs: true
     }
   );
 });
