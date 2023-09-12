@@ -4,17 +4,13 @@ import {
   TrashIcon,
   CheckCircleIcon
 } from '@heroicons/react/24/outline';
+import { formatDate } from '../../utils/util';
 
 interface TodoCardProps {
   todo: Todo;
   updateTodo: (arg: Todo) => void;
   deleteTodo: (args: string) => void;
 }
-
-const formatDate = (dateString: string) => {
-  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString(undefined, options);
-};
 
 function TodoCard({ todo, updateTodo, deleteTodo }: TodoCardProps) {
   return (
@@ -26,7 +22,7 @@ function TodoCard({ todo, updateTodo, deleteTodo }: TodoCardProps) {
       <div onClick={() => updateTodo(todo)} aria-label='edit'>
         <PencilIcon className='h-4 w-4 text-blue-500 hidden  group-hover:block absolute top-4 right-8 cursor-pointer' />
       </div>
-      <div onClick={() => deleteTodo(todo.id)} aria-label='delete'>
+      <div onClick={() => deleteTodo(todo.id!)} aria-label='delete'>
         <TrashIcon className='h-4 w-4 text-blue-500 hidden group-hover:block absolute top-4 right-2 cursor-pointer' />
       </div>
       <div>
