@@ -26,10 +26,12 @@ function Index() {
   useEffect(() => {
     async function fetchData() {
       const todoCollection = collection(firestore, 'todos');
+
       const todoQuery = query(
         todoCollection,
-        where('userId', '==', auth.user.uid)
+        where('userId', '==', auth.user!.uid)
       );
+
       const querySnapshot = await getDocs(todoQuery);
       const fetchedData: Todo[] = [];
 
@@ -39,7 +41,9 @@ function Index() {
 
       setTodoList(fetchedData);
     }
-    fetchData();
+    if (auth) {
+      fetchData();
+    }
   }, []);
 
   const addUpdateTodo = async (todo: Partial<Todo>) => {
@@ -65,7 +69,7 @@ function Index() {
         const newDoc = await addDoc(todoCollection, {
           ...todo,
           date: date.toString(),
-          userId: auth.user.uid
+          userId: auth.user!.uid
         });
 
         setTodoList([

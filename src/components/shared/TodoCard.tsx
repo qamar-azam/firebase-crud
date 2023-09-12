@@ -22,7 +22,7 @@ function TodoCard({ todo, updateTodo, deleteTodo }: TodoCardProps) {
       <div onClick={() => updateTodo(todo)} aria-label='edit'>
         <PencilIcon className='h-4 w-4 text-blue-500 hidden  group-hover:block absolute top-4 right-8 cursor-pointer' />
       </div>
-      <div onClick={() => deleteTodo(todo.id)} aria-label='delete'>
+      <div onClick={() => deleteTodo(todo.id!)} aria-label='delete'>
         <TrashIcon className='h-4 w-4 text-blue-500 hidden group-hover:block absolute top-4 right-2 cursor-pointer' />
       </div>
       <div>

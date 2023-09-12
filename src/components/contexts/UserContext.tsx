@@ -19,7 +19,7 @@ export type AuthState =
       state: 'UNKNOWN';
     };
 
-const AuthReducer = (state: AuthState, action: AuthActions) => {
+const AuthReducer = (state: AuthState, action: AuthActions): AuthState => {
   switch (action.type) {
     case 'SIGN_IN':
       return {
@@ -57,11 +57,7 @@ function loadFromLocalStorage() {
   return ls ? JSON.parse(ls) : null;
 }
 
-type initialState = {
-  state: string;
-  currentUser?: User | undefined;
-};
-function createInitialState(): initialState {
+function createInitialState(): AuthState {
   const user = loadFromLocalStorage();
   if (user) {
     return {
@@ -81,7 +77,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (state.state === 'SIGNED_IN') {
       window.localStorage.setItem('user', JSON.stringify(state.currentUser));
-    } else if (state.state === 'SIGN_OUT') {
+    } else if (state.state === 'SIGNED_OUT') {
       window.localStorage.removeItem('user');
     }
   }, [state]);
@@ -95,8 +91,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 const useAuthState = () => {
   const { state } = useContext(AuthContext);
+
   return {
-    user: state.currentUser
+    user: state.state === 'SIGNED_IN' ? state.currentUser : null
   };
 };
 
